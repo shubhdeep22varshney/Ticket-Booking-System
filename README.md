@@ -1,10 +1,79 @@
 # 🎟️ Distributed Ticket Booking System (Backend)
+> A production-ready backend system demonstrating secure authentication and concurrency-safe booking using database-level locking.
 
-A backend-only distributed ticket booking system built using **Spring Boot**, **MySQL**, and **JWT Authentication**.
+A backend-only distributed ticket booking system built using **Spring Boot**, **MySQL**, and **JWT Authentication**.  
 The system supports secure ticket booking with concurrency control to prevent overbooking.
 
 ---
+## 📌 Project Overview
 
+The Distributed Ticket Booking System is a backend application designed to simulate a real-world ticket reservation platform. It allows users to browse events, select seats, and book tickets securely.
+
+The system focuses on handling **concurrent booking scenarios**, where multiple users may try to book the same seat at the same time. To prevent issues like overbooking, the application uses **ACID-compliant transactions** along with **database-level pessimistic locking**.
+
+This project follows a clean layered architecture using Spring Boot, where each layer (Controller, Service, Repository) has a clear responsibility. It also integrates **JWT-based authentication and role-based authorization**, ensuring secure access for both users and administrators.
+
+
+---
+
+## 🎯 Key Objectives
+
+- Build a scalable and secure backend system for ticket booking
+- Prevent double booking using transaction management
+- Implement role-based access control (Admin & User)
+- Design RESTful APIs for real-world use cases
+- Ensure data consistency under concurrent requests
+
+---
+
+## 🧠 How It Works (Simple Flow)
+
+1. User registers and logs in to get a JWT token
+2. User fetches available events
+3. User selects seats for an event
+4. System locks selected seats at database level
+5. System checks if seats are already booked
+6. If available → booking is confirmed
+7. If not → request fails (no overbooking)
+
+---
+
+## 💡 Why This Project is Important
+
+In real-world systems like movie booking or flight reservation platforms, handling **concurrent requests** is critical. Without proper locking, multiple users can book the same seat, leading to inconsistent data.
+
+This project solves that problem using:
+- Transaction management (`@Transactional`)
+- Pessimistic locking (`PESSIMISTIC_WRITE`)
+- Proper validation and exception handling
+
+---
+## 🚀 Highlights
+
+- 🔐 Secure JWT-based authentication
+- ⚡ Concurrency-safe booking system
+- 🧠 Clean layered architecture
+- 🗄️ Efficient database design with JPA/Hibernate
+- 📡 RESTful APIs with proper validation and exception handling
+---
+## 🏗️ Architecture Diagram
+![Architecture](docs/architecture.png)
+### 📌 Explanation
+* Controller Layer → Handles REST APIs
+* Service Layer → Business logic (booking, validation)
+* Repository Layer → JPA/Hibernate DB operations
+* Security Layer → JWT authentication & authorization
+* Database → MySQL stores users, events, bookings, seats
+* Concurrency Control → Pessimistic locking prevents overbooking
+---
+## 🔄 Booking Flow Diagram
+![Booking Flow Diagram](docs/BookingFlowDiagram.png)
+---
+### 🔄 Flow
+
+User → Login → Get Token → Select Seats → Lock Seats → Validate → Save Booking → Response
+
+---
 ## 🚀 Features
 
 ### 🔐 Authentication & Authorization
@@ -77,7 +146,22 @@ src/main/java/com/shubhdeep/ticketbooking
  ┣ security
  ┣ service
 ```
+---
 
+## API Documentation
+
+Swagger UI:
+
+http://localhost:8080/swagger-ui.html
+
+Swagger Preview-
+![Swagger UI](docs/swagger-ui.png)
+
+## API Testing (Postman)
+
+ Postman Preview-
+
+![Postman Testing](docs/postman-testing.png)
 ---
 
 ## ⚙️ Setup Instructions
@@ -216,7 +300,6 @@ baseUrl = http://localhost:8080
 
 ## 📌 Future Improvements
 
-* Swagger API Documentation
 * Dockerization
 * Redis caching for seat locking
 * Rate limiting
@@ -227,6 +310,8 @@ baseUrl = http://localhost:8080
 ## 👨‍💻 Author
 
 **Shubhdeep Varshney**
+
+Email: shubhdeepvarshney02@gmail.com
 
 ---
 
