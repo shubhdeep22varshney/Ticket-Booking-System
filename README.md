@@ -1,148 +1,125 @@
-# 🎟️ Distributed Ticket Booking System | Backend
+# 🎟️ Distributed Ticket Booking System (Backend)
 
-A backend-only Spring Boot application for managing events and booking tickets in a distributed environment.
-The system ensures secure user authentication and prevents overbooking using transactional locking mechanisms.
-
----
-
-## 🚀 Tech Stack
-
-* **Java 17**
-* **Spring Boot**
-* **Spring Security**
-* **JWT Authentication**
-* **Spring Data JPA (Hibernate)**
-* **MySQL**
-* **Maven**
-* **Postman**
+A backend-only distributed ticket booking system built using **Spring Boot**, **MySQL**, and **JWT Authentication**.
+The system supports secure ticket booking with concurrency control to prevent overbooking.
 
 ---
 
-## 🔥 Features
+## 🚀 Features
 
-### 🔐 Authentication & Security
+### 🔐 Authentication & Authorization
 
-* User registration and login
+* User Registration & Login
 * JWT-based authentication
-* Role-based authorization (**ADMIN**, **USER**)
-* Secure endpoints using Spring Security
+* Role-based access:
 
-### 🛠️ Admin Features
+   * **ADMIN**
+   * **USER**
 
-* Create event
-* Update event
-* Delete event
+---
+
+### 🎫 Event Management (Admin)
+
+* Create Event
+* Update Event
+* Delete Event
 * View all bookings
+* View booking by ID
+* Check seat status for events
 
-### 👤 User Features
+---
 
-* View all events
+### 🧑‍💻 User Booking
+
 * Book tickets (multiple seats)
-* Cancel bookings
 * View own bookings
-
-### ⚙️ System Features
-
-* Prevents **double booking** using database locking
-* ACID-compliant transactions using `@Transactional`
-* Global exception handling
-* Request validation using annotations (`@NotNull`, `@NotBlank`, etc.)
-* Clean layered architecture (Controller → Service → Repository)
+* Cancel booking
 
 ---
 
-## 🔐 Authentication Flow
+### 🎭 Event APIs
 
-1. User logs in via:
-
-   ```http
-   POST /api/auth/login
-   ```
-2. Backend returns a JWT token
-3. Include token in every protected request:
-
-   ```http
-   Authorization: Bearer <your_token>
-   ```
-4. Backend extracts user from token
-   (No `userId` required in request body)
+* Get all events
+* Get event by ID
 
 ---
 
-## 📦 API Endpoints
+### ⚡ Concurrency Handling
 
-### 🔑 Auth APIs
-
-* `POST /api/auth/register`
-* `POST /api/auth/login`
-
-### 🎫 Event APIs
-
-* `GET /api/events`
-* `GET /api/events/{eventId}`
-
-### 🛠️ Admin APIs
-
-* `POST /api/admin/events`
-* `PUT /api/admin/events/{eventId}`
-* `DELETE /api/admin/events/{eventId}`
-* `GET /api/admin/bookings`
-* `GET /api/admin/bookings/{bookingId}`
-
-### 👤 User Booking APIs
-
-* `POST /api/bookings`
-* `GET /api/bookings/user`
-* `PUT /api/bookings/{bookingId}/cancel`
+* ACID-compliant transactions
+* Prevents double booking of seats
+* Uses database-level locking (JPA/Hibernate)
 
 ---
 
-## 🧪 Postman Testing
+## 🛠️ Tech Stack
 
-A Postman collection is included in the project:
+* **Backend:** Java, Spring Boot
+* **Database:** MySQL
+* **ORM:** JPA / Hibernate
+* **Security:** Spring Security + JWT
+* **Testing:** Postman
+* **Build Tool:** Maven
+
+---
+
+## 📁 Project Structure
 
 ```
-postman_collection.json
+src/main/java/com/shubhdeep/ticketbooking
+ ┣ config
+ ┣ controller
+ ┣ dto
+ ┣ entity
+ ┣ enums
+ ┣ exception
+ ┣ repository
+ ┣ security
+ ┣ service
 ```
-
-### Steps:
-
-1. Login and get JWT token
-2. Add token in headers:
-
-   ```
-   Authorization: Bearer <token>
-   ```
-3. Test APIs (create event, booking, cancel, etc.)
 
 ---
 
-## ⚙️ How to Run the Project
+## ⚙️ Setup Instructions
 
-### 1. Clone the repository
+### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
+git clone https://github.com/YOUR_USERNAME/distributed-ticket-booking-system-backend.git
 cd distributed-ticket-booking-system-backend
 ```
 
-### 2. Configure MySQL Database
+---
+
+### 2. Configure MySQL
+
+Create a database:
+
+```sql
+CREATE DATABASE ticket_booking;
+```
 
 Update `application.properties`:
 
 ```properties
-spring.datasource.url=jdbc:mysql://localhost:3306/ticket_booking_db
+spring.datasource.url=jdbc:mysql://localhost:3306/ticket_booking
 spring.datasource.username=root
-spring.datasource.password=your_mysql_password
+spring.datasource.password=your_password
+
+spring.jpa.hibernate.ddl-auto=update
 ```
 
-### 3. Run the application
+---
+
+### 3. Run the Application
+
+Using IntelliJ or:
 
 ```bash
 mvn spring-boot:run
 ```
 
-Server runs at:
+Server will start at:
 
 ```
 http://localhost:8080
@@ -150,35 +127,100 @@ http://localhost:8080
 
 ---
 
+## 🔑 Authentication Flow
+
+1. Register user → `/auth/register`
+2. Login → `/auth/login`
+3. Copy JWT token from response
+4. Add in headers:
+
+```
+Authorization: Bearer <token>
+```
+
+---
+
+## 📬 API Endpoints Overview
+
+### 🔐 Auth
+
+* `POST /auth/register`
+* `POST /auth/login`
+
+---
+
+### 🎭 Events
+
+* `GET /api/events`
+* `GET /api/events/{id}`
+
+---
+
+### 🎫 Booking (User)
+
+* `POST /api/bookings`
+* `GET /api/bookings/my`
+* `PUT /api/bookings/{id}/cancel`
+
+---
+
+### 🛠️ Admin
+
+* `POST /api/admin/events`
+* `PUT /api/admin/events/{id}`
+* `DELETE /api/admin/events/{id}`
+* `GET /api/admin/bookings`
+* `GET /api/admin/bookings/{id}`
+* `GET /api/admin/events/{id}/seats`
+
+---
+
+## 🧪 Postman Collection
+
+Postman files are available in:
+
+```
+postman/
+```
+
+### Files:
+
+* `ticket-booking-system.postman_collection.json`
+* `ticket-booking-system.postman_environment.json`
+
+### Setup:
+
+1. Import both files into Postman
+2. Select environment: `ticket-booking-system-local`
+3. Set:
+
+```
+baseUrl = http://localhost:8080
+```
+
+4. Login → token auto-saved or paste manually
+
+---
+
 ## 🧠 Key Concepts Used
 
 * JWT Authentication
-* Role-based Authorization
-* Transaction Management (`@Transactional`)
-* Pessimistic Locking (for concurrency control)
-* DTO pattern (Request/Response separation)
-* Global Exception Handling
-* Validation with annotations
-* Clean architecture design
+* Role-Based Authorization
+* REST API Design
+* Transaction Management
+* Exception Handling
+* DTO Pattern
+* Clean Architecture
 
 ---
 
-## 🚀 Future Enhancements
+## 📌 Future Improvements
 
-* Swagger (API documentation)
-* Docker support
-* Redis caching (for seat locking / performance)
-* Unit & integration testing
-* Payment gateway integration
+* Swagger API Documentation
+* Dockerization
+* Redis caching for seat locking
+* Rate limiting
 * Email notifications
-
----
-
-## 📌 Important Notes
-
-* `userId` is NOT passed in booking request
-* User identity is extracted securely from JWT token
-* Prevents overbooking using database locking
 
 ---
 
@@ -188,4 +230,6 @@ http://localhost:8080
 
 ---
 
-⭐ If you like this project, consider giving it a star!
+## ⭐ If you like this project
+
+Give it a ⭐ on GitHub!
