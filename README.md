@@ -208,7 +208,14 @@ Server will start at:
 ```
 http://localhost:8080
 ```
+---
 
+## 🐳 Run with Docker
+- Step 1: Install Docker Desktop
+- Step 2: Run project - 
+            docker compose up --build
+- Step 3: Open Swagger
+http://localhost:8080/swagger-ui/index.html
 ---
 
 ## 🔑 Authentication Flow
