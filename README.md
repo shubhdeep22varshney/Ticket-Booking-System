@@ -1,4 +1,4 @@
-# 🎟️ Distributed Ticket Booking System (Backend)
+# 🎟️ Ticket Booking System (Backend)
 > A production-ready backend system demonstrating secure authentication and concurrency-safe booking using database-level locking.
 
 A backend-only distributed ticket booking system built using **Spring Boot**, **MySQL**, and **JWT Authentication**.  
